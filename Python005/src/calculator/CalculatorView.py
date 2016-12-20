@@ -36,7 +36,7 @@ class CalculatorView(Tkinter.Frame):
               textvariable=display).pack(side=Tkinter.TOP, expand=Tkinter.YES,
                                            fill=Tkinter.BOTH)  
         # 添加横条型框架以及里面的按钮  
-        for key in('123', '456', '789', '-0.'):
+        for key in('123456789-0.'):
             keyF = frame(self, Tkinter.TOP);
             for char in key:
                 button(keyF, Tkinter.LEFT, char, lambda w=display, c=char:w.set(w.get() + c));
