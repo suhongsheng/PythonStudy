@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import SocketServer  
-from SocketServer import StreamRequestHandler as SRH  
-from time import ctime
+import SocketServer;
+from SocketServer import StreamRequestHandler as SRH;
+from time import ctime;
 
 host = '0.0.0.0'  
 port = 8080;
@@ -34,5 +34,5 @@ class Servers(SRH):
         self.request.send(data);
         
 print 'server is running....'  
-server = SocketServer.ThreadingTCPServer(addr, Servers)  
-server.serve_forever()  
+server = SocketServer.ThreadingTCPServer(addr, Servers);
+server.serve_forever();

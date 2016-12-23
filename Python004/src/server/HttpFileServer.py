@@ -1,17 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import SocketServer  
-from SocketServer import StreamRequestHandler as SRH  
-from time import ctime
+import SocketServer;
+from SocketServer import StreamRequestHandler as SRH; 
+from time import ctime;
 
-host = '0.0.0.0'  
+host = '0.0.0.0';
 port = 8080;
-addr = (host, port)  
+addr = (host, port);
 
 class Servers(SRH):  
     def handle(self):  
-        print 'got connection from ', self.client_address
+        print 'got connection from ', self.client_address;
         request = self.request.recv(2048);
         print (request);
         
@@ -51,5 +51,5 @@ class Servers(SRH):
         self.request.send(data);
         
 print 'server is running....'  
-server = SocketServer.ThreadingTCPServer(addr, Servers)  
-server.serve_forever()  
+server = SocketServer.ThreadingTCPServer(addr, Servers);
+server.serve_forever();

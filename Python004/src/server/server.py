@@ -26,12 +26,12 @@ def mul(a, b):
 def dev(a, b):
     return a / b;
 
-operator = {1:add, 2:sub, 3:mul, 4:dev} 
+operator = {1:add, 2:sub, 3:mul, 4:dev};
 
 class Servers(SRH):  
     def handle(self):  
-        print 'got connection from ', self.client_address  
-        print('connection %s:%s at %s succeed!' % (host, port, ctime()))  
+        print 'got connection from ', self.client_address;
+        print('connection %s:%s at %s succeed!' % (host, port, ctime()));
         while True:  
             data = self.request.recv(1024)  
             if not data:   
@@ -39,9 +39,9 @@ class Servers(SRH):
             print (data);
             items = data.split(" ");
             print(items);
-            print "RECV from ", self.client_address[0]  
+            print ("RECV from ", self.client_address[0]);
             result = operator.get(int(items[1]))(float(items[0]), float(items[2]));
             self.request.send(str(result));
 print 'server is running....';
 server = SocketServer.ThreadingTCPServer(addr, Servers);
-server.serve_forever()  
+server.serve_forever();

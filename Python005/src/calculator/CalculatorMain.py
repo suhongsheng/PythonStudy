@@ -4,7 +4,7 @@
 import CalculatorService;
 import CalculatorView;
 
-def main(self):
+def main():
     print('start calculator.......');
     service = CalculatorService.CalculatorService();
     CalculatorView.CalculatorView(service).mainloop();

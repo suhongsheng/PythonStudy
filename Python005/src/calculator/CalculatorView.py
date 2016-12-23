@@ -21,6 +21,48 @@ class CalculatorView(Tkinter.Frame):
     # 存储第二个数
     second = 0;
     
+    display = None;
+    
+    firstNumber = None;
+    
+    operate = None;
+
+    def cal(self, firstNumber, operate, secondNumber):
+        operator = {'+':self.service.add, "-":self.service.sub, "*":self.service.mul, '/':self.service.dev};
+        return operator.get(operate)(firstNumber, secondNumber)
+    
+
+    def numberCallBack(self, number):
+        self.display.set(self.display.get() + number);
+        
+    def operatorCallBack(self, newOperate):
+        if(self.operate != None and self.firstNumber != None):
+            # 计算前一次的操作
+            self.firstNumber = self.cal(self.firstNumber, self.operate, float(self.display.get()));
+        else:
+            # 记录操作符，并存储第一个
+            self.firstNumber = float(self.display.get());
+        self.display.set("");
+        self.operate = newOperate;
+        
+    def ACCallBack(self):
+        self.firstNumber = None;
+        self.operate = None;
+        self.display.set("");
+        
+    def CallBack(self):
+        pass;    
+    
+    def CalCallBack(self):
+        if(self.operate == None and self.firstNumber == None):
+            # TODO
+            return;
+        secondNumber = float(self.display.get());
+        result = self.cal(self.firstNumber, self.operate, secondNumber);
+        self.display.set(str(result));
+        self.firstNumber = None;
+        self.operate = None;
+    
     def __init__(self, service):  
           
         Tkinter.Frame.__init__(self)  
@@ -29,33 +71,30 @@ class CalculatorView(Tkinter.Frame):
         
         self.pack(expand=Tkinter.YES, fill=Tkinter.BOTH)  
         self.master.title('Simple Calculater')  
-          
-        display = Tkinter.StringVar()  
-        # 添加输入框  
-        Tkinter.Entry(self, relief=Tkinter.SUNKEN,
-              textvariable=display).pack(side=Tkinter.TOP, expand=Tkinter.YES,
-                                           fill=Tkinter.BOTH)  
-        # 添加横条型框架以及里面的按钮  
-        for key in('123456789-0.'):
-            keyF = frame(self, Tkinter.TOP);
-            for char in key:
-                button(keyF, Tkinter.LEFT, char, lambda w=display, c=char:w.set(w.get() + c));
-        # 添加操作符按钮  
-        opsF = frame(self, Tkinter.TOP)  
-        for char in '+-*/=':  
-            if char == '=':  
-                btn = button(opsF, Tkinter.LEFT, char)  
-                btn.bind('<ButtonRelease - 1>', lambda e, s=self, w=display:s.calc(w), '+');
-  
-            else:  
-                btn = button(opsF, Tkinter.LEFT, char, lambda w=display, s='%s' % char:w.set(w.get() + s))  
-        # 添加清除按钮  
-        clearF = frame(self, Tkinter.BOTTOM)  
-        button(clearF, Tkinter.LEFT, 'clear', lambda w=display:w.set(''))  
-  
-    # 调用eval函数计算表达式的值  
-    def calc(self, display):  
-        try:  
-            display.set(eval(display.get()))  
-        except:  
-            display.set("ERROR")  
+        root = self;
+        
+        self.display = Tkinter.StringVar();
+        buttonResult = Tkinter.Entry(root, textvariable=self.display, background='#909090');
+        buttonResult.grid(row=0, column=0, columnspan=6, rowspan=2, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+    
+        # 数字键
+        i = 0;
+        for key in('1234567890.'):
+            button1 = Tkinter.Button(root, fg="red", bg='#E0E0E0', text=key, command=lambda keyTemp=key : self.numberCallBack(keyTemp));
+            if(key == '0'):
+                button1.grid(row=2 + int(i / 3), column=i % 3, columnspan=2, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+                i = i + 2;
+            else:
+                button1.grid(row=2 + int(i / 3), column=i % 3);
+                i = i + 1;
+        # 符号
+        i = 0;
+        for key in('+-*/'):
+            button1 = Tkinter.Button(root, text=key, command=lambda keyTemp=key : self.operatorCallBack(keyTemp), fg="#FF9341");
+            button1.grid(row=2 + i, column=4, columnspan=2, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+            i = i + 1;
+            
+        Tkinter.Button(root, text="AC", command=self.ACCallBack).grid(row=7, column=0, columnspan=1, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+        Tkinter.Button(root, text="-", command=self.CallBack).grid(row=7, column=1, columnspan=1, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+        Tkinter.Button(root, text="=", command=self.CalCallBack).grid(row=7, column=2, columnspan=4, sticky=Tkinter.W + Tkinter.E + Tkinter.N + Tkinter.S, padx=0, pady=0);
+

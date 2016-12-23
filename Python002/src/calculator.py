@@ -34,6 +34,7 @@ def logs():
     rfile = open("./logs.txt", "r")
     for line in rfile.xreadlines():
         print(line);
+    rfile.close();
 
 def entry():
     print('''-------请根据以下提示进行计算的选择-----------

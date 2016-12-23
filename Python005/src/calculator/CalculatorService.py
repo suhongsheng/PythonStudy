@@ -14,12 +14,18 @@ class CalculatorService:
     
     # 减法 
     def sub(self, a, b):
-        return a - b;
+        result = a - b;
+        self.logger.log("%f - %f = %f" % (a, b, result));
+        return result;
     
     # 乘法
     def mul(self, a, b):
-        return a * b;
+        result = a * b;
+        self.logger.log("%f *  %f = %f" % (a, b, result));
+        return result;
     
     # 除法
     def dev(self, a, b):
-        return a / b;
+        result = a / b;
+        self.logger.log("%f / %f = %f" % (a, b, result));
+        return result;
